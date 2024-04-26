@@ -1,0 +1,15 @@
+{
+  "name": "matrix-hookshot-webhooks",
+  "version": "0.0.0",
+  "description": "A collection of webhooks JS transformations for matrix-hookshot",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foxadb/matrix-hookshot-webhooks.git"
+  },
+  "author": "Samy Amraoui <sametzy@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/foxadb/matrix-hookshot-webhooks/issues"
+  },
+  "homepage": "https://github.com/foxadb/matrix-hookshot-webhooks#readme"
+}
