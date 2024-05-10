@@ -12,7 +12,7 @@ const projectUrl = data.project.web_url;
 const mergeRequest = data.merge_request;
 const ref = typeof data.ref === 'string' ? data.ref.split('/')[2] : undefined;
 
-let plain = '';
+let html, plain;
 
 if (data.object_kind === 'merge_request') {
     const { action, title, url } = data.object_attributes;
@@ -20,11 +20,15 @@ if (data.object_kind === 'merge_request') {
 } else if (data.object_kind === 'note') {
     const note = data.object_attributes.note;
     const url = data.object_attributes.url;
+    html = `<p>${user} (${username}) <a href="${url}">commented</a> in <a href="${projectUrl}">${projectName}</a>`;
     plain = `${user} (${username}) [commented](${url}) in [${projectName}](${projectUrl})`;
     if (mergeRequest) {
+        html += `: ${mergeRequest.title}</p>`;
         plain += `: ${mergeRequest.title}`;
-    }    
-    plain += `\n> ${note}`;
+    } else {
+        html += '</p>';
+    }
+    html += `\n<blockquote>\n<p>${note}</p>\n</blockquote>`;
 } else if (data.object_kind === 'push') {
     const lastCommit = data.commits[data.commits.length - 1];
     const { id, title, url } = lastCommit;
@@ -37,7 +41,8 @@ if (data.object_kind === 'merge_request') {
 }
 
 result = {
-    msgtype: 'm.notice',
+    msgtype: 'm.text',
+    html,
     plain,
     webhookResponse: {
         contentType: 'application/json',
