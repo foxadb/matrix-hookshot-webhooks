@@ -36,7 +36,12 @@ if (data.object_kind === 'merge_request') {
     plain = `${user} (${username}) pushed to branch [${ref}](${url}) of [${projectName}](${projectUrl})`;
     plain += `\n> [${shortId}](${url}): ${title}`;
 } else if (data.object_kind === 'tag_push') {
-    const action = data.checkout_sha ? 'pushed new tag' : 'deleted tag';
+    let action = 'deleted tag';
+    let url = `${projectUrl}/-/tags`;
+    if (typeof data.checkout_sha === 'string') {
+        action = 'pushed new tag';
+        url += `/${ref}`;
+    }
     plain = `${user} (${username}) ${action} [${ref}](${url}) to [${projectName}](${projectUrl})`;
 }
 
