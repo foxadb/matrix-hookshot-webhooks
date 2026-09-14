@@ -21,15 +21,13 @@ try {
     } else if (data.object_kind === 'note') {
         const note = data.object_attributes.note;
         const url = data.object_attributes.url;
-        html = `<p>${user} (${username}) <a href="${url}">commented</a> in <a href="${projectUrl}">${projectName}</a>`;
+        html = `${user} (${username}) <a href="${url}">commented</a> in <a href="${projectUrl}">${projectName}</a>`;
         plain = `${user} (${username}) [commented](${url}) in [${projectName}](${projectUrl})`;
         if (mergeRequest) {
-            html += `: ${mergeRequest.title}</p>`;
+            html += `: ${mergeRequest.title}`;
             plain += `: ${mergeRequest.title}`;
-        } else {
-            html += '</p>';
         }
-        html += `\n<blockquote>\n<p>${note}</p>\n</blockquote>`;
+        html += `\n<blockquote>\n${note}\n</blockquote>`;
     } else if (data.object_kind === 'push') {
         const lastCommit = data.commits[data.commits.length - 1];
         const { id, title, url } = lastCommit;
