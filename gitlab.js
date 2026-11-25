@@ -53,9 +53,5 @@ result = {
     msgtype: 'm.text',
     html,
     plain,
-    webhookResponse: {
-        contentType: 'application/json',
-        statusCode: 204
-    },
     version,
 };
