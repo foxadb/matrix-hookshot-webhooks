@@ -41,7 +41,7 @@ try {
         let action = 'deleted tag';
         let url = `${projectUrl}/-/tags`;
         if (typeof data.checkout_sha === 'string') {
-            action = 'pushed new tag';
+            action = 'pushed tag';
             url += `/${ref}`;
         }
         plain = `${user} (${username}) ${action} [${ref}](${url}) to [${projectName}](${projectUrl})`;
