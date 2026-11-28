@@ -48,7 +48,7 @@ try {
     }
 } catch (error) {
     plain = 'Webhook received but failed to process via transformation function\n\n';
-    plain += error.stack.split(" at VM2 Wrapper.apply")[0];
+    plain += String(error?.stack ?? error) + '\n\n';
     plain += '```json\n' + JSON.stringify(data, null, 2) + '\n```';
 }
 
