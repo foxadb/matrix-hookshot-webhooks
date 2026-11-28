@@ -16,16 +16,19 @@ try {
     const ref = typeof data.ref === 'string' ? data.ref.split('/')[2] : undefined;
 
     if (data.object_kind === 'merge_request') {
-        const { action, title, url } = data.object_attributes;
-        plain = `${user} (${username}) ${action} [${title}](${url}) in [${projectName}](${projectUrl})`;
+        const { action, title, url, iid } = data.object_attributes;
+        const mergeRequestId = `${projectName}!${iid}`;
+        plain = `${user} (${username}) ${action} MR [${mergeRequestId}](${url}): "${title}"`;
     } else if (data.object_kind === 'note') {
         const note = data.object_attributes.note;
         const url = data.object_attributes.url;
-        html = `${user} (${username}) <a href="${url}">commented</a> in <a href="${projectUrl}">${projectName}</a>`;
-        plain = `${user} (${username}) [commented](${url}) in [${projectName}](${projectUrl})`;
         if (mergeRequest) {
-            html += `: ${mergeRequest.title}`;
-            plain += `: ${mergeRequest.title}`;
+            const mergeRequestId = `${projectName}!${mergeRequest.iid}`;
+            html = `${user} (${username}) commented MR <a href="${url}">${mergeRequestId}</a>: "${mergeRequest.title}"`;
+            plain = `${user} (${username}) commented MR [${mergeRequestId}](${url}): "${mergeRequest.title}"`;
+        } else {
+            html = `${user} (${username}) <a href="${url}">commented</a> in <a href="${projectUrl}">${projectName}</a>`;
+            plain = `${user} (${username}) [commented](${url}) in [${projectName}](${projectUrl})`;
         }
         html += `\n<blockquote>\n${note}\n</blockquote>`;
     } else if (data.object_kind === 'push') {
